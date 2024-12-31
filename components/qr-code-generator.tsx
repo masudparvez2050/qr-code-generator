@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { QRCodeType, qrCodeTypes } from '@/lib/qr-types'
 import { QRCodeForm } from './qr-code-form'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Steps } from './steps'
+// import { Steps } from './steps'
 
 export function QRCodeGenerator({ onStepChange }: { onStepChange: (step: number) => void }) {
   const [selectedType, setSelectedType] = useState<QRCodeType | null>(null)

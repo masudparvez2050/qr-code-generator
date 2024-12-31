@@ -14,20 +14,20 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <motion.main
-        className="flex-grow container mx-auto p-4"
+        className="flex-grow  mx-auto p-4 h-[400px] overflow-auto w-full "
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
         <div className="mb-8">
-          <motion.h1
+          {/* <motion.h1
             className="text-4xl font-bold text-center mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent"
             initial={{ scale: 0.5 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5 }}
           >
             Online QR Generator
-          </motion.h1>
+          </motion.h1> */}
           <Steps currentStep={currentStep} />
         </div>
         <QRCodeGenerator onStepChange={setCurrentStep} />

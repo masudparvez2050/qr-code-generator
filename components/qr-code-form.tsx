@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import jsPDF from "jspdf";
 
 interface QRCodeFormProps {
   type: QRCodeType;
@@ -48,22 +49,44 @@ export function QRCodeForm({ type, onBack, onSubmit }: QRCodeFormProps) {
     onSubmit();
   };
 
-  const handleDownload = () => {
+  const handleDownload = (format: "png" | "svg" | "pdf") => {
     const svg = document.querySelector(".qr-code-svg") as SVGSVGElement;
     if (svg) {
       const svgData = new XMLSerializer().serializeToString(svg);
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
-      const img = new Image();
+      const img = new window.Image(size, size);
       img.onload = () => {
         canvas.width = size;
         canvas.height = size;
         ctx?.drawImage(img, 0, 0);
-        const pngFile = canvas.toDataURL("image/png");
-        const downloadLink = document.createElement("a");
-        downloadLink.download = `qr-code-${type.id}.png`;
-        downloadLink.href = pngFile;
-        downloadLink.click();
+        if (format === "png") {
+          const pngFile = canvas.toDataURL("image/png");
+          const downloadLink = document.createElement("a");
+          downloadLink.download = `qr-code-${type.id}.png`;
+          downloadLink.href = pngFile;
+          downloadLink.click();
+        } else if (format === "svg") {
+          const svgBlob = new Blob([svgData], {
+            type: "image/svg+xml;charset=utf-8",
+          });
+          const svgUrl = URL.createObjectURL(svgBlob);
+          const downloadLink = document.createElement("a");
+          downloadLink.download = `qr-code-${type.id}.svg`;
+          downloadLink.href = svgUrl;
+          downloadLink.click();
+        } else if (format === "pdf") {
+          const pdf = new jsPDF();
+          pdf.addImage(
+            canvas.toDataURL("image/png"),
+            "PNG",
+            0,
+            0,
+            size / 4,
+            size / 4
+          );
+          pdf.save(`qr-code-${type.id}.pdf`);
+        }
       };
       img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
     }
@@ -82,7 +105,7 @@ export function QRCodeForm({ type, onBack, onSubmit }: QRCodeFormProps) {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <Button variant="ghost" onClick={onBack} className="mb-6">
+      <Button variant="outline" onClick={onBack} className="mb-6">
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back
       </Button>
@@ -246,9 +269,26 @@ export function QRCodeForm({ type, onBack, onSubmit }: QRCodeFormProps) {
                         className="qr-code-svg"
                       />
                     </div>
-                    <Button onClick={handleDownload} className="w-full">
+                    <Button
+                      onClick={() => handleDownload("png")}
+                      className="w-full"
+                    >
                       <Download className="w-4 h-4 mr-2" />
                       Download PNG
+                    </Button>
+                    <Button
+                      onClick={() => handleDownload("svg")}
+                      className="w-full"
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      Download SVG
+                    </Button>
+                    <Button
+                      onClick={() => handleDownload("pdf")}
+                      className="w-full"
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      Download PDF
                     </Button>
                   </div>
                 </CardContent>

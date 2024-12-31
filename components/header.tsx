@@ -14,7 +14,7 @@ export function Header() {
       <div className="container mx-auto flex justify-between items-center">
         <motion.div
           className="flex items-center space-x-2"
-          whileHover={{ scale: 1.05 }}
+          // whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           <QrCode className="w-8 h-8" />
