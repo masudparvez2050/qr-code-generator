@@ -11,6 +11,7 @@
   "dependencies": {
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-slider": "^1.2.2",
+    "node-fetch": "^3.3.2",
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-tabs": "^1.1.2",
     "class-variance-authority": "^0.7.1",
@@ -18,7 +19,7 @@
     "framer-motion": "^11.15.0",
     "jspdf": "^2.5.2",
     "lucide-react": "^0.469.0",
-    "next": "14.2.16",
+    "next": "14.2.35",
     "qrcode.react": "^4.2.0",
     "react": "^18",
     "react-dom": "^18",
